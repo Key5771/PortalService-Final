@@ -1,11 +1,10 @@
 package kr.ac.jejunu.todo;
 
 import lombok.RequiredArgsConstructor;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
+import java.util.Optional;
 
 @RestController
 @RequestMapping("/api")
@@ -15,7 +14,26 @@ public class TodoController {
     private final TodoRepository todoRepository;
 
     @GetMapping("/todo")
-    public List<Todo> todo() {
-        return todoRepository.findAll();
+    public Result<List<Todo>> todo() {
+        return new Result(todoRepository.findAll());
+    }
+
+    @PostMapping("/todo")
+    public Result<Todo> create(@RequestBody Todo todo) {
+        todo = todoRepository.save(todo);
+        return new Result(todo);
+    }
+
+    @DeleteMapping("/todo/{id}")
+    public Result<Integer> delete(@PathVariable int id) {
+        Result r = null;
+        try {
+            Todo todo = todoRepository.findById(id).orElseThrow();
+            todoRepository.delete(todo);
+            r = new Result(id);
+        } catch (Exception  e) {
+            r = new Result();
+        }
+        return r;
     }
 }
