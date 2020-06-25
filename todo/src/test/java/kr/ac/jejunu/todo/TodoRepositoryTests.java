@@ -22,10 +22,12 @@ public class TodoRepositoryTests {
     @Test
     public void findAll() {
         String text = "Spring 공부하기";
-        Todo todo = Todo.builder().text(text).build();
+        Boolean isDone = false;
+        Todo todo = Todo.builder().text(text).isDone(isDone).build();
         entityManager.persist(todo);
         List<Todo> todos = todoRepository.findAll();
         assertThat(todos.get(0).getId(), greaterThan(0));
         assertThat(todos.get(0).getText(), is(text));
+        assertThat(todos.get(0).getIsDone(), is(isDone));
     }
 }

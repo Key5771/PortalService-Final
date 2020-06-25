@@ -20,4 +20,5 @@ public class Todo {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
     private String text;
+    private Boolean isDone;
 }

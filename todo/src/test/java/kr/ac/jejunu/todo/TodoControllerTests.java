@@ -31,7 +31,8 @@ public class TodoControllerTests {
         List<Todo> todos = new ArrayList<>();
         int id = 1;
         String text = "Spring 공부하기";
-        Todo todo = Todo.builder().id(id).text(text).build();
+        Boolean isDone = false;
+        Todo todo = Todo.builder().id(id).text(text).isDone(isDone).build();
         todos.add(todo);
 
         given(todoController.todo()).willReturn(todos);
@@ -39,6 +40,7 @@ public class TodoControllerTests {
                 .andExpect(status().isOk())
                 .andExpect(jsonPath("$", hasSize(1)))
                 .andExpect(jsonPath("$[0].id", is(id)))
-                .andExpect(jsonPath("$[0].todo", is(text)));
+                .andExpect(jsonPath("$[0].text", is(text)))
+                .andExpect(jsonPath("$[0].isDone", is(isDone)));
     }
 }
