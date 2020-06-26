@@ -15,12 +15,14 @@ public class TodoController {
 
     @GetMapping("/todo")
     public Result<List<Todo>> todo() {
+        System.out.println("todo");
         return new Result(todoRepository.findAll());
     }
 
     @PostMapping("/todo")
     public Result<Todo> create(@RequestBody Todo todo) {
         todo = todoRepository.save(todo);
+        System.out.println("todo" + todo);
         return new Result(todo);
     }
 
